@@ -70,10 +70,11 @@ exports.signupPost = function(req, res, next) {
   if (errors) {
     return res.status(400).send(errors);
   }
-
+  
   new User({
+    external_id: crypto.randomBytes(8).toString('hex'),
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
   }).save()
     .then(function(user) {
         res.send({ token: generateToken(user), user: user });

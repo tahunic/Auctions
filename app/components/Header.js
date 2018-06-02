@@ -16,7 +16,7 @@ class Header extends React.Component {
         <li className="dropdown">
           <a href="#" data-toggle="dropdown" className="navbar-avatar dropdown-toggle">
             <img src={this.props.user.picture || this.props.user.gravatar}/>
-            {' '}{this.props.user.username || this.props.user.id}{' '}
+            {' '}{this.props.user.username}{' '}
             <i className="caret"></i>
           </a>
           <ul className="dropdown-menu">
@@ -44,7 +44,8 @@ class Header extends React.Component {
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
-              <li><IndexLink to="/" activeStyle={active}>Live auctions</IndexLink></li>
+              <li><IndexLink to="/auctions" activeStyle={active}>Live auctions</IndexLink></li>
+              <li><Link to="/auctions/add" activeStyle={active}>Add auction</Link></li>
               <li><Link to="/auctions/won" activeStyle={active}>Won auctions</Link></li>
             </ul>
             {rightNav}

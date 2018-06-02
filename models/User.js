@@ -37,10 +37,10 @@ var User = bookshelf.Model.extend({
 
   virtuals: {
     gravatar: function() {
-      if (!this.get('email')) {
+      if (!this.get('username')) {
         return 'https://gravatar.com/avatar/?s=200&d=retro';
       }
-      var md5 = crypto.createHash('md5').update(this.get('email')).digest('hex');
+      var md5 = crypto.createHash('md5').update(this.get('username')).digest('hex');
       return 'https://gravatar.com/avatar/' + md5 + '?s=200&d=retro';
     }
   }

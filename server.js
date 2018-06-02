@@ -26,9 +26,11 @@ require('babel-polyfill');
 
 // Models
 var User = require('./models/User');
+var Auction = require('./models/Auction');
 
 // Controllers
 var userController = require('./controllers/user');
+var auctionController = require('./controllers/auction');
 
 // React and Server-Side Rendering
 var routes = require('./app/routes');
@@ -82,6 +84,8 @@ if (app.get('env') === 'development') {
 
 app.post('/signup', userController.signupPost);
 app.post('/login', userController.loginPost);
+app.post('/auctions', userController.ensureAuthenticated, auctionController.auctionPost);
+app.get('/auctions', userController.ensureAuthenticated, auctionController.auctionsGet);
 
 // React server rendering
 app.use(function(req, res) {

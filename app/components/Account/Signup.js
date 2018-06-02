@@ -37,9 +37,6 @@ class Signup extends React.Component {
               </div>
               <button type="submit" className="btn btn-success">Create an account</button>
             </form>
-            <div className="hr-title"><span>or</span></div>
-            <div className="btn-toolbar text-center">
-            </div>
           </div>
         </div>
         <p className="text-center">
