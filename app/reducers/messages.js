@@ -1,5 +1,5 @@
 import { LOGIN_ERROR, SIGNUP_ERROR } from '../constants/auth';
-import { AUCTION_ADD_SUCCESS, AUCTION_ADD_ERROR } from '../constants/auctions';
+import { AUCTION_ADD_SUCCESS, AUCTION_ADD_ERROR, BID_UPDATE_SUCCESS, BID_UPDATE_ERROR } from '../constants/auctions';
 import { CLEAR_MESSAGES } from '../constants/messages';
 
 export default function messages(state = {}, action) {
@@ -7,10 +7,12 @@ export default function messages(state = {}, action) {
     case LOGIN_ERROR:
     case SIGNUP_ERROR:
     case AUCTION_ADD_ERROR:
+    case BID_UPDATE_ERROR:
       return {
         error: action.messages
       };
     case AUCTION_ADD_SUCCESS:
+    case BID_UPDATE_SUCCESS:
       return {
         success: action.messages
       };

@@ -9,7 +9,7 @@ export function login(username, password) {
     dispatch({
       type: CLEAR_MESSAGES
     });
-    return fetch('/login', {
+    return fetch('/api/login', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -44,7 +44,7 @@ export function signup(username, password) {
     dispatch({
       type: CLEAR_MESSAGES
     });
-    return fetch('/signup', {
+    return fetch('/api/signup', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username, password: password })

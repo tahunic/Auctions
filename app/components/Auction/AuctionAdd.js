@@ -7,9 +7,9 @@ import Messages from '../Messages';
 const initialState = {
   title: '',
   description: '',
-  initialPrice: 1.00,
-  minPrice: 1.00,
-  duration: 1
+  initialPrice: '',
+  minPrice: '',
+  duration: ''
 }
 
 class AuctionAdd extends React.Component {

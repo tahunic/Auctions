@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.increments();
       table.string('external_id').unique();
       table.string('title', 100).notNullable();
-      table.string('description');
+      table.text('description').notNullable();
       table.decimal('initial_price').notNullable();
       table.decimal('min_price').notNullable();
       table.integer('duration').notNullable();

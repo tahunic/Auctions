@@ -27,10 +27,12 @@ require('babel-polyfill');
 // Models
 var User = require('./models/User');
 var Auction = require('./models/Auction');
+var Bid = require('./models/Bid');
 
 // Controllers
 var userController = require('./controllers/user');
 var auctionController = require('./controllers/auction');
+var bidController = require('./controllers/bid');
 
 // React and Server-Side Rendering
 var routes = require('./app/routes');
@@ -82,10 +84,12 @@ if (app.get('env') === 'development') {
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
-app.post('/signup', userController.signupPost);
-app.post('/login', userController.loginPost);
-app.post('/auctions', userController.ensureAuthenticated, auctionController.auctionPost);
-app.get('/auctions', userController.ensureAuthenticated, auctionController.auctionsGet);
+app.post('/api/signup', userController.signupPost);
+app.post('/api/login', userController.loginPost);
+app.post('/api/auctions', userController.ensureAuthenticated, auctionController.auctionPost);
+app.get('/api/auctions/:id', userController.ensureAuthenticated, auctionController.auctionGet);
+app.get('/api/auctions', userController.ensureAuthenticated, auctionController.auctionsGet);
+app.post('/api/bids', userController.ensureAuthenticated, bidController.bidPost);
 
 // React server rendering
 app.use(function(req, res) {

@@ -7,6 +7,7 @@ import Login from './components/Account/Login';
 import Signup from './components/Account/Signup';
 import AuctionAdd from './components//Auction/AuctionAdd';
 import AuctionIndex from './components/Auction/AuctionIndex';
+import AuctionDetails from './components/Auction/AuctionDetails';
 
 export default function getRoutes(store) {
   const ensureAuthenticated = (nextState, replace) => {
@@ -16,7 +17,7 @@ export default function getRoutes(store) {
   };
   const skipIfAuthenticated = (nextState, replace) => {
     if (store.getState().auth.token) {
-      replace('/');
+      replace('/auctions');
     }
   };
   const loginIfNotAuthenticated = (nextState, replace) => {
@@ -31,11 +32,11 @@ export default function getRoutes(store) {
   };
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Home} onLeave={clearMessages}/>
+      <IndexRoute component={AuctionIndex} onEnter={loginIfNotAuthenticated} onLeave={clearMessages}/>
       <Route path="/login" component={Login} onEnter={skipIfAuthenticated} onLeave={clearMessages}/>
       <Route path="/signup" component={Signup} onEnter={skipIfAuthenticated} onLeave={clearMessages}/>
       <Route path="/auctions/add" component={AuctionAdd} onEnter={loginIfNotAuthenticated} onLeave={clearMessages}/>
-      <Route path="/auctions" component={AuctionIndex} onEnter={loginIfNotAuthenticated} onLeave={clearMessages}/>
+      <Route path="/auctions/:id" component={AuctionDetails} onEnter={loginIfNotAuthenticated} onLeave={clearMessages}/>
       <Route path="*" component={NotFound} onLeave={clearMessages}/>
     </Route>
   );
