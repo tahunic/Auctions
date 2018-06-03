@@ -16,10 +16,6 @@ class AuctionWon extends Component {
     this.props.fetchWonAuctions(this.props.token);
   }
 
-  componentWillReceiveProps(props) {
-    console.log('props', props);
-  }
-
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -36,7 +32,7 @@ class AuctionWon extends Component {
         </div>
       )
     }
-    
+
     return (
       <div className="container-fluid">
         <Messages messages={this.props.messages} />

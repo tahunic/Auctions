@@ -33,7 +33,7 @@ class AuctionIndex extends Component {
         </div>
       )
     }
-    
+
     return (
       <div className="container-fluid">
         <Messages messages={this.props.messages} />

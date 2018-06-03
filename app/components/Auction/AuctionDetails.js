@@ -5,7 +5,7 @@ import moment from 'moment';
 import { fetchAuction, submitNewBid } from '../../actions/auctions';
 import Messages from '../../components/Messages';
 
-const initialState = { currentBid: 25, newBid: '' };
+const initialState = { newBid: '' };
 
 class AuctionDetails extends Component {
   constructor(props) {
@@ -59,11 +59,20 @@ class AuctionDetails extends Component {
                     {moment().diff(auction.duration, new Date()) > 0 ? <h2>Winner: {!auction.winner ? '/' : auction.winner.username}</h2> : null}
                     <br />
                     <h4>Expiration: {moment(auction.duration).from(new Date())}</h4>
-                    <div className="form-group">
-                      <label htmlFor="newBid">Bid: </label>
-                      <input type="number" name="newBid" id="newBid" placeholder="Bid" className="form-control" step="0.01" value={this.state.newBid} onChange={(e) => this.handleChange(e)} />
-                    </div>
-                    <button disabled={moment().diff(auction.duration, new Date()) > 0} type="submit" className="btn btn-success">Submit</button>
+                    {
+                      // If auction has expired display a label, else display an input
+                      moment().diff(auction.duration, new Date()) < 0 ?
+                        <div>
+                          <div className="form-group">
+                            <label htmlFor="newBid">Bid: </label>
+                            <input type="number" name="newBid" id="newBid" placeholder="Bid" className="form-control" step="0.01" value={this.state.newBid} onChange={(e) => this.handleChange(e)} />
+                          </div>
+                          <button disabled={moment().diff(auction.duration, new Date()) > 0} type="submit" className="btn btn-success">Submit</button>
+                        </div> :
+                        <div>
+                          <h4 className="text-danger">An auction has expired</h4>
+                        </div>
+                    }
                   </form>
                 </div>
               </div>

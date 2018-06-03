@@ -11,13 +11,14 @@ These instructions will get you a copy of the project up and running on your loc
 - Node
 - Mysql
 
-Edit .env file and set your local values for mysql access
+You should create a new database and edit .env file to set your local values for mysql access. Make sure database name and other values are correct.
 
 ### Installation
 
 
 ```
 npm install
+npm run build
 npm start
 ```
 

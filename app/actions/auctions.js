@@ -12,9 +12,12 @@ import {
 } from '../constants/auctions';
 import { CLEAR_MESSAGES } from '../constants/messages';
 
+// Since we are using messages components for displaying success and error messages
+// In every action we dispatch clear messages so that previous messages are cleared
+
 /**
  *
- * Create new auctions
+ * Create new auction
  * 
  * @param  {object} data The user data
  * @param  {string} token Auth token
@@ -104,7 +107,7 @@ export function fetchAuctions(token) {
  * 
  * @param  {string} token Auth token
  *
- * @return {object} An action object with a type of AUCTIONS_LOAD_SUCCESS if successful or AUCTIONS_LOAD_ERROR if error
+ * @return {object} An action object with a type of AUCTIONS_WON_LOAD_SUCCESS if successful or AUCTIONS_WON_LOAD_ERROR if error
  */
 export function fetchWonAuctions(token) {
   return (dispatch) => {
@@ -144,7 +147,7 @@ export function fetchWonAuctions(token) {
  * @param  {string} id Auction ID
  * @param  {string} token Auth token
  *
- * @return {object} An action object with a type of AUCTIONS_LOAD_SUCCESS if successful or AUCTIONS_LOAD_ERROR if error
+ * @return {object} An action object with a type of AUCTION_LOAD_SUCCESS if successful or AUCTION_LOAD_ERROR if error
  */
 export function fetchAuction(id, token) {
   return (dispatch) => {
@@ -181,10 +184,12 @@ export function fetchAuction(id, token) {
  *
  * Submit new bid for an auction
  * 
- * @param  {string} id Auction ID
+ * @param  {number} currentBid Current bid amount for auction
+ * @param  {number} newBid New bid amount for auction
+ * @param  {object} auction Auction object
  * @param  {string} token Auth token
  *
- * @return {object} An action object with a type of AUCTIONS_LOAD_SUCCESS if successful or AUCTIONS_LOAD_ERROR if error
+ * @return {object} An action object with a type of BID_UPDATE_SUCCESS if successful or BID_UPDATE_ERROR if error
  */
 export function submitNewBid(currentBid, newBid, auction, token) {
   return (dispatch) => {
