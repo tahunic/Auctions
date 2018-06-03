@@ -3,6 +3,7 @@ var Bid = require('../models/Bid');
 var config = require('../knexfile');
 var knex = require('knex')(config);
 var crypto = require('crypto');
+var moment = require('moment');
 
 /**
  * Create new auction
@@ -29,7 +30,7 @@ exports.auctionPost = function (req, res) {
     return res.status(400).send({ msg: 'Minimum price must be at least 1$.' });    
   }
 
-  if (req.body.duration < 1 || req.body.duration > 5) {
+  if (req.body.duration < 1 || req.body.duration > 30) {
     return res.status(400).send({ msg: 'Duration must be between 1 and 5 days.' });    
   }
 
@@ -39,7 +40,7 @@ exports.auctionPost = function (req, res) {
     description: req.body.description,
     initial_price: req.body.initialPrice,
     min_price: req.body.minPrice,
-    duration: req.body.duration,
+    duration: moment().add(req.body.duration, 'minute').toDate(),
     auction_owner_id: req.user.id,
   }).save()
     .then(function (auction) {
@@ -70,12 +71,32 @@ exports.auctionPost = function (req, res) {
  */
 exports.auctionsGet = function (req, res) {
   Auction.collection()
-    .fetch({ withRelated: ['users'] })
+    .orderBy('id', 'desc')
+    .fetch({ withRelated: ['owner', 'winner'] })
     .then((response) => {
       res.send(response);
     })
     .catch(function (err) {
-      return res.status(400).send({ msg: 'An error occurred while trying to load auctions. Please try again.' })
+      return res.status(400).send({ msg: 'An error occurred while trying to load auctions.' })
+    });
+};
+
+/**
+ * Get won auctions by logged user
+ * GET /api/auctions/won
+ */
+exports.auctionsWonGet = function (req, res) {
+  Auction.where({ auction_winner_id: req.user.id })
+    .orderBy('id', 'desc')
+    .fetch({ withRelated: ['owner', 'winner'] })
+    .then((response) => {
+      if (response)
+        res.send(response);
+      else
+        res.send([]);
+    })
+    .catch(function (err) {
+      return res.status(400).send({ msg: 'An error occurred while trying to load auctions.' })
     });
 };
 
@@ -86,16 +107,27 @@ exports.auctionsGet = function (req, res) {
  */
 exports.auctionGet = function (req, res) {
   Auction.where({ external_id: req.params.id })
-    .fetch()
+    .fetch({ withRelated: ['owner', 'winner'] })
     .then((auction) => {
       Bid.collection({ auction_id: auction.attributes.id })
         .orderBy('id', 'desc')
         .fetchOne()
         .then((bid) => {
+          auction = auction.toJSON();
+          bid = bid.toJSON();
+
+          // Check if auction has expired
+          // If auction has expired and latest bid amount is higher than minimum amount
+          // for auction to succeed, set winner for that auction
+          if (bid.amount > auction.min_price && bid.user_id !== auction.auction_owner_id) {
+            Auction.where({ id: auction.id })
+              .save({ auction_winner_id: bid.user_id }, { method: 'update' });
+          }
+
           res.send({ data: auction, latestBid: bid });
         })
     })
     .catch(function (err) {
-      return res.status(400).send({ msg: 'An error occurred while trying to load auction. Please try again.' })
+      return res.status(400).send({ msg: 'An error occurred while trying to load auction.' })
     });
 };

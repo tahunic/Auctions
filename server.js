@@ -87,6 +87,7 @@ if (app.get('env') === 'development') {
 app.post('/api/signup', userController.signupPost);
 app.post('/api/login', userController.loginPost);
 app.post('/api/auctions', userController.ensureAuthenticated, auctionController.auctionPost);
+app.get('/api/auctions/won', userController.ensureAuthenticated, auctionController.auctionsWonGet);
 app.get('/api/auctions/:id', userController.ensureAuthenticated, auctionController.auctionGet);
 app.get('/api/auctions', userController.ensureAuthenticated, auctionController.auctionsGet);
 app.post('/api/bids', userController.ensureAuthenticated, bidController.bidPost);

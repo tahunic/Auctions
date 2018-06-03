@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       table.text('description').notNullable();
       table.decimal('initial_price').notNullable();
       table.decimal('min_price').notNullable();
-      table.integer('duration').notNullable();
+      table.datetime('duration').notNullable();
       table.integer('auction_owner_id').references('users.id').unsigned().notNullable();
       table.integer('auction_winner_id').references('users.id').unsigned();
       table.timestamps();
@@ -17,6 +17,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('users')
+    knex.schema.dropTable('auctions')
   ])
 };

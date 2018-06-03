@@ -33,7 +33,7 @@ var User = bookshelf.Model.extend({
     });
   },
 
-  hidden: ['password', 'passwordResetToken', 'passwordResetExpires'],
+  hidden: ['password'],
 
   virtuals: {
     gravatar: function() {

@@ -4,8 +4,11 @@ var user = require('./User');
 var Auction = bookshelf.Model.extend({
   tableName: 'auctions',
   hasTimestamps: true,
-  users: function() {
-    return this.belongsTo(user);
+  owner: function() {
+    return this.belongsTo(user, 'auction_owner_id');
+  },
+  winner: function() {
+    return this.belongsTo(user, 'auction_winner_id');
   }
 });
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router';
+import moment from 'moment';
 import { fetchAuction, submitNewBid } from '../../actions/auctions';
 import Messages from '../../components/Messages';
 
@@ -16,10 +17,6 @@ class AuctionDetails extends Component {
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchAuction(id, this.props.token);
-  }
-
-  componentWillReceiveProps(props) {
-    console.log('props', props);
   }
 
   handleChange(event) {
@@ -54,15 +51,19 @@ class AuctionDetails extends Component {
                   <h3>{auction.title}</h3>
                   <p>{auction.description}</p>
                   <h4>Initial price: {auction.initial_price}$</h4>
+                  <h4>Posted by user: <strong>{auction.owner.username}</strong></h4>
                 </div>
                 <div className="col-sm-6 col-xs-12">
                   <form onSubmit={(e) => this.handleSubmit(e)}>
                     <h1>Current bid: {this.props.currentBid}$</h1>
+                    {moment().diff(auction.duration, new Date()) > 0 ? <h2>Winner: {!auction.winner ? '/' : auction.winner.username}</h2> : null}
+                    <br />
+                    <h4>Expiration: {moment(auction.duration).from(new Date())}</h4>
                     <div className="form-group">
                       <label htmlFor="newBid">Bid: </label>
                       <input type="number" name="newBid" id="newBid" placeholder="Bid" className="form-control" step="0.01" value={this.state.newBid} onChange={(e) => this.handleChange(e)} />
                     </div>
-                    <button type="submit" className="btn btn-success">Submit</button>
+                    <button disabled={moment().diff(auction.duration, new Date()) > 0} type="submit" className="btn btn-success">Submit</button>
                   </form>
                 </div>
               </div>

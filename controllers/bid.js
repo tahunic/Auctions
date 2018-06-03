@@ -2,6 +2,7 @@ var Bid = require('../models/Bid');
 var config = require('../knexfile');
 var knex = require('knex')(config);
 var crypto = require('crypto');
+var moment = require('moment');
 
 /**
  * Create new bid
@@ -15,15 +16,20 @@ exports.bidPost = function (req, res) {
   if (errors) {
     return res.status(400).send(errors);
   }
-
-  // Prevent from bidding lower than current bid
-  if (req.body.currentBid >= req.body.newBid) {
-    return res.status(400).send({ msg: 'Your bid must be higher than current bid.' });
-  }
-  
+ 
   // Prevent user from bidding on his own auctions
   if (req.body.auction.auction_owner_id === req.user.id) {
     return res.status(400).send({ msg: 'You cannot bid on your own auctions.' });    
+  }
+
+  // Prevent from bidding lower than current bid
+  if (Number(req.body.currentBid) >= Number(req.body.newBid)) {
+    return res.status(400).send({ msg: 'Your bid must be higher than current bid.' });
+  }
+
+  // Prevent from bidding if auction has expired
+  if (moment().diff(req.body.auction.duration, new Date()) > 0) {
+    return res.status(400).send({ msg: 'Auction has expired.' });
   }
 
   new Bid({

@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router';
-import { fetchAuctions } from '../../actions/auctions';
+import { fetchWonAuctions } from '../../actions/auctions';
 import Messages from '../../components/Messages';
 
-const initialState = { auctions: [] };
+const initialState = { auctions: null };
 
-class AuctionIndex extends Component {
+class AuctionWon extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
   }
 
   componentDidMount() {
-    this.props.fetchAuctions(this.props.token);
+    this.props.fetchWonAuctions(this.props.token);
+  }
+
+  componentWillReceiveProps(props) {
+    console.log('props', props);
   }
 
   handleChange(event) {
@@ -24,12 +28,11 @@ class AuctionIndex extends Component {
     if (!this.props.auctions) {
       return <div>Loading...</div>
     }
-
     if (this.props.auctions.length === 0) {
       return (
         <div className="container text-center">
-          <h1>No live auctions</h1>
-          <p>There are no live auctions right now, please check again later or <Link to={'/auctions/add'}>create an auction</Link> </p>
+          <h1>No won auctions</h1>
+          <p>You have not won any auctions yet. Bid on <Link to={'/'}>live auctions</Link>.</p>
         </div>
       )
     }
@@ -65,8 +68,8 @@ const mapStateToProps = (state) => {
   return {
     token: state.auth.token,
     messages: state.messages,
-    auctions: state.auctions.all
+    auctions: state.auctions.won
   };
 };
 
-export default connect(mapStateToProps, { fetchAuctions })(AuctionIndex);
+export default connect(mapStateToProps, { fetchWonAuctions })(AuctionWon);
