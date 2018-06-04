@@ -28,7 +28,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 };
 
   /**
-   * POST /login
+   * POST /api/login
    * Sign in with username and password
    */
   exports.loginPost = function(req, res, next) {
@@ -59,7 +59,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   };
 
 /**
- * POST /signup
+ * POST /api/signup
  */
 exports.signupPost = function(req, res, next) {
   req.assert('username', 'Username cannot be blank').notEmpty();

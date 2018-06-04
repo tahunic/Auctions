@@ -19,7 +19,7 @@ import { CLEAR_MESSAGES } from '../constants/messages';
  *
  * Create new auction
  * 
- * @param  {object} data The user data
+ * @param  {object} data The auction data
  * @param  {string} token Auth token
  *
  * @return {object} An action object with a type of AUCTION_ADD_SUCCESS if successful or AUCTION_ADD_ERROR if error

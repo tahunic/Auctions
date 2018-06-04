@@ -22,7 +22,7 @@ describe('auth actions', () => {
   });
 
   it('creates LOGIN_SUCCESS action when login form is submitted', () => {
-    fetchMock.mock('/login', 'POST', { token, user });
+    fetchMock.mock('/api/login', 'POST', { token, user });
 
     AuthActionsRewireAPI.__Rewire__('browserHistory', []);
 

@@ -22,6 +22,14 @@ npm run build
 npm start
 ```
 
+### Tests
+
+
+```
+npm run test:client
+npm run test:server
+```
+
 ## Demo
 
 
